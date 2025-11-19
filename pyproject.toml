@@ -4,12 +4,13 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "npg-tracking-python"
-license = { file = "COPYING", content-type = "text/plain" }
+license = { file = "LICENSE", content-type = "text/plain" }
+readme = { file = "README.md", content-type = "text/markdown" }
 authors = [ 
     { name = "Marco M. Mosca", email = "mm51@sanger.ac.uk" },
 ]
 classifiers = [
-    "Development Status :: 1 - Planning",
+    "Development Status :: 2 - Pre-Alpha",
     "Intended Audience :: Developers",
     "Environment :: Console",
     "Programming Language :: Python",
@@ -24,14 +25,18 @@ dynamic = ["version"]
 
 description = "Tracking DB manager"
 dependencies = [
-    "pymysql",
-    "sqlalchemy",
+    "sqlalchemy>2.0.0",
 ]
 
 [project.optional-dependencies]
 test = [
-  "pytest",
-  "ruff",
+    "pytest",
+    "ruff",
+    "pytest-it",
+    "sqlalchemy-utils",
+    "pyyaml",
+    "cryptography",
+    "pymysql",
 ]
 
 [project.scripts]

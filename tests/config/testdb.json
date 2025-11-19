@@ -1,0 +1,9 @@
+{
+    "TRACKING": {
+        "dbhost": "127.0.0.1",
+        "dbport": "3306",
+        "dbname": "npgtrackingtest",
+        "dbuser": "test",
+        "dbpass": "test"
+    }
+}
