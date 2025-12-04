@@ -29,23 +29,30 @@ from npgtracking.db.schema import (
 def get_runs_by_currentstatus(
     session: Session, status_description: str, manufacturer_name: str
 ) -> list[Run]:
-    """
-    Returns a list of npgtracking.db.schema::Run objects for runs with
-    current status as given by the status_description argument and performed
-    on an instrument by a manufacturer given by the manufacturer argument.
-    It does not validate either the status description or the manufacturer name.
-    Examples:
-        status_description: "run in progress"
-        manufacturer_name: "Ultima Genomics"
+    """Retrieves run records from the database.
+
+    Retrieves runs with the current status as given by the status_description
+    argument, which is performed on an instrument by the manufacturer with the
+    name given by the manufacturer_name argument.
+
+    No validation of either the status description or the manufacturer name
+    is performed.
 
     Args:
-        session (sqlalchemy.orm.Session): Session object
-        status_description (str): One of the run statuses, should exist
-            in the run_status_dict table
-        manufacturer_name (str): Manufacturer name as defined in the manufacturer table
+      session :
+        Database session.
+      status_description :
+        One of the run statuses, should exist in the 'run_status_dict' database
+        table.
+      manufacturer_name :
+        Manufacturer name as defined in the 'manufacturer' database table.
 
     Returns:
-        list[Run]: All runs with a specific current status and manufacturer name
+    -------
+      A list of runs with a specific current status, which are performed on
+      an instrument by a particular manufacturer.
+
+      An empty list is returned if no run satisfies the given criteria.
     """
     query = (
         session.query(Run)
