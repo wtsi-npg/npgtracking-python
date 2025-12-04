@@ -1,0 +1,7 @@
+---
+- id_user: 7
+  rfid: ~
+  username: eseq_pipeline
+- id_user: 14
+  rfid: ~
+  username: useq_pipeline

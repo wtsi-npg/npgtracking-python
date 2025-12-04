@@ -1,0 +1,68 @@
+# -*- coding: utf-8 -*-
+#
+# Copyright © 2025 Genome Research Ltd. All rights reserved.
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+from sqlalchemy.orm import Session
+
+from npgtracking.db.schema import (
+    InstrumentFormat,
+    Manufacturer,
+    Run,
+    RunStatus,
+    RunStatusDict,
+)
+
+
+def get_runs_by_currentstatus(
+    session: Session, status_description: str, manufacturer_name: str
+) -> list[Run]:
+    """Retrieves run records from the database.
+
+    Retrieves runs with the current status as given by the status_description
+    argument, which is performed on an instrument by the manufacturer with the
+    name given by the manufacturer_name argument.
+
+    No validation of either the status description or the manufacturer name
+    is performed.
+
+    Args:
+      session :
+        Database session.
+      status_description :
+        One of the run statuses, should exist in the 'run_status_dict' database
+        table.
+      manufacturer_name :
+        Manufacturer name as defined in the 'manufacturer' database table.
+
+    Returns:
+    -------
+      A list of runs with a specific current status, which are performed on
+      an instrument by a particular manufacturer.
+
+      An empty list is returned if no run satisfies the given criteria.
+    """
+    query = (
+        session.query(Run)
+        .join(RunStatus)
+        .join(RunStatusDict)
+        .join(InstrumentFormat)
+        .join(Manufacturer)
+    ).filter(
+        RunStatusDict.description == status_description,
+        RunStatus.iscurrent == 1,
+        Manufacturer.name == manufacturer_name,
+    )
+    return query.all()
