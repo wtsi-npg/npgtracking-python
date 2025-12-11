@@ -25,10 +25,10 @@ class TestSchemaModel(object):
     @m.context("When retrieving run records from tracking DB")
     @m.context("When there are no runs having a current status and manufacturer name")
     @m.it("Empty list is returned")
-    def test_schema_no_runs(self, mlwh_session):
+    def test_schema_no_runs(self, tracking_session):
         status = "run mirrored"
         manufacturer = "Ultima Genomics"
-        tracking_runs = get_runs_by_currentstatus(mlwh_session, status, manufacturer)
+        tracking_runs = get_runs_by_currentstatus(tracking_session, status, manufacturer)
         assert len(tracking_runs) == 0
 
     @m.context("When retrieving run records from tracking DB")
@@ -36,10 +36,10 @@ class TestSchemaModel(object):
         "When only one run has the specified current status and manufacturer name"
     )
     @m.it("Metadata of the returned run is correct")
-    def test_schema_single_run(self, mlwh_session):
+    def test_schema_single_run(self, tracking_session):
         status = "run in progress"
         manufacturer = "Ultima Genomics"
-        tracking_runs = get_runs_by_currentstatus(mlwh_session, status, manufacturer)
+        tracking_runs = get_runs_by_currentstatus(tracking_session, status, manufacturer)
 
         assert len(tracking_runs) == 1
         run = tracking_runs.pop()
@@ -58,10 +58,10 @@ class TestSchemaModel(object):
         "When there are more runs having the same current status and manufacturer name"
     )
     @m.it("Multiple runs are returned")
-    def test_schema_multiple_runs(self, mlwh_session):
+    def test_schema_multiple_runs(self, tracking_session):
         status = "off-tool automation in progress"
         manufacturer = "Ultima Genomics"
-        tracking_runs = get_runs_by_currentstatus(mlwh_session, status, manufacturer)
+        tracking_runs = get_runs_by_currentstatus(tracking_session, status, manufacturer)
 
         assert len(tracking_runs) == 2
         for run in tracking_runs:
