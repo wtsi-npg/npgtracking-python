@@ -3,6 +3,16 @@
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [0.2.0] - 2025-12-12
+
+### Added
+
+* get_run_by_batch_and_flowcell function added to retrieval module
+
+### Fixed
+
+* run.batch_id is now a varchar
+
 ## [0.1.1] - 2025-12-11
 
 ### Fixed
