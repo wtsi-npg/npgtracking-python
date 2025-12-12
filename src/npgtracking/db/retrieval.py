@@ -15,6 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from npgtracking.db.schema import (
@@ -66,3 +67,14 @@ def get_runs_by_currentstatus(
         Manufacturer.name == manufacturer_name,
     )
     return query.all()
+
+
+def get_run_by_batch_and_flowcell(
+    session: Session, batch_id: str, flowcell_id: str
+) -> Run | None:
+    result = session.execute(
+        select(Run)
+        .where(Run.batch_id == batch_id)
+        .where(Run.flowcell_id == flowcell_id)
+    ).scalar_one_or_none()
+    return result
