@@ -72,6 +72,21 @@ def get_runs_by_currentstatus(
 def get_run_by_batch_and_flowcell(
     session: Session, batch_id: str, flowcell_id: str
 ) -> Run | None:
+    """
+    Get a Run by its batch ID and flowcell ID.
+
+    Args:
+      session :
+        Database session
+      batch_id :
+        The batch ID from DNA pipelines
+      flowcell_id :
+        The ID of the flowcell used in the run
+
+    Returns:
+    -------
+      npgtracking.db.schema.Run or None
+    """
     result = session.execute(
         select(Run)
         .where(Run.batch_id == batch_id)
