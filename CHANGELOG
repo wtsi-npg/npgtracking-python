@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
-* get_run_by_batch_and_flowcell function added to retrieval module
+* get_run_by_id function added to retrieval module
 
 ### Fixed
 

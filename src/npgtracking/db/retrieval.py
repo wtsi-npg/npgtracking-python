@@ -69,27 +69,41 @@ def get_runs_by_currentstatus(
     return query.all()
 
 
-def get_run_by_batch_and_flowcell(
-    session: Session, batch_id: str, flowcell_id: str
+def get_run_by_id(
+    session: Session,
+    batch_id: str | None = None,
+    flowcell_id: str | None = None,
+    id_run: int | None = None,
 ) -> Run | None:
     """
-    Get a Run by its batch ID and flowcell ID.
+    Get a Run by its IDs. Either id_run alone, or batch_id and flowcell_id together
 
     Args:
       session :
         Database session
+      ---
       batch_id :
-        The batch ID from DNA pipelines
+        The batch ID from DNA pipelines - must be combined with flowcell_id below
       flowcell_id :
-        The ID of the flowcell used in the run
+        The ID of the flowcell used in the run - must be combined with batch_id
+      ---
+      id_run :
+        NPG Tracking run ID - sufficient on its own
 
     Returns:
     -------
       npgtracking.db.schema.Run or None
     """
-    result = session.execute(
-        select(Run)
-        .where(Run.batch_id == batch_id)
-        .where(Run.flowcell_id == flowcell_id)
-    ).scalar_one_or_none()
+
+    statement = select(Run)
+
+    if id_run:
+        statement = statement.where(Run.id_run == id_run)
+    elif batch_id and flowcell_id:
+        statement = statement.where(Run.batch_id == batch_id).where(
+            Run.flowcell_id == flowcell_id
+        )
+    else:
+        raise ValueError("Can't get one run without an argument")
+    result = session.execute(statement).scalar_one_or_none()
     return result

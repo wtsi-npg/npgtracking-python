@@ -16,9 +16,10 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from pytest import mark as m
+from pytest import raises
 
 from npgtracking.db.retrieval import (
-    get_run_by_batch_and_flowcell,
+    get_run_by_id,
     get_runs_by_currentstatus,
 )
 
@@ -83,17 +84,21 @@ class TestSchemaModel(object):
 
     @m.context("When getting a run by IDs")
     @m.it("Gives us one or no runs")
-    def test_run_by_flowcell_batch(self, tracking_session):
-        assert (
-            get_run_by_batch_and_flowcell(
-                session=tracking_session, batch_id=None, flowcell_id=None
-            )
-            is None
-        )
+    def test_run_by_id(self, tracking_session):
+        with raises(ValueError, match="Can't get one run without an argument"):
+            get_run_by_id(session=tracking_session, batch_id=None, flowcell_id=None)
 
-        run = get_run_by_batch_and_flowcell(
+        run = get_run_by_id(
             session=tracking_session,
             batch_id="O44 batch 24798 pool 1",
             flowcell_id="430591",
         )
+        assert run
         assert run.id_run == 51533
+
+        run = get_run_by_id(session=tracking_session, id_run=51533)
+        assert run
+        assert run.id_run == 51533
+
+        run = get_run_by_id(session=tracking_session, id_run=12345)
+        assert run is None
