@@ -16,8 +16,12 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 from pytest import mark as m
+from pytest import raises
 
-from npgtracking.db.retrieval import get_runs_by_currentstatus
+from npgtracking.db.retrieval import (
+    get_run_by_id,
+    get_runs_by_currentstatus,
+)
 
 
 @m.describe("SchemaModel")
@@ -28,7 +32,9 @@ class TestSchemaModel(object):
     def test_schema_no_runs(self, tracking_session):
         status = "run mirrored"
         manufacturer = "Ultima Genomics"
-        tracking_runs = get_runs_by_currentstatus(tracking_session, status, manufacturer)
+        tracking_runs = get_runs_by_currentstatus(
+            tracking_session, status, manufacturer
+        )
         assert len(tracking_runs) == 0
 
     @m.context("When retrieving run records from tracking DB")
@@ -39,7 +45,9 @@ class TestSchemaModel(object):
     def test_schema_single_run(self, tracking_session):
         status = "run in progress"
         manufacturer = "Ultima Genomics"
-        tracking_runs = get_runs_by_currentstatus(tracking_session, status, manufacturer)
+        tracking_runs = get_runs_by_currentstatus(
+            tracking_session, status, manufacturer
+        )
 
         assert len(tracking_runs) == 1
         run = tracking_runs.pop()
@@ -61,7 +69,9 @@ class TestSchemaModel(object):
     def test_schema_multiple_runs(self, tracking_session):
         status = "off-tool automation in progress"
         manufacturer = "Ultima Genomics"
-        tracking_runs = get_runs_by_currentstatus(tracking_session, status, manufacturer)
+        tracking_runs = get_runs_by_currentstatus(
+            tracking_session, status, manufacturer
+        )
 
         assert len(tracking_runs) == 2
         for run in tracking_runs:
@@ -71,3 +81,24 @@ class TestSchemaModel(object):
             ).pop()
             assert run.instrument_format.manufacturer.name == manufacturer
             assert current_run_status.run_status_dict.description == status
+
+    @m.context("When getting a run by IDs")
+    @m.it("Gives us one or no runs")
+    def test_run_by_id(self, tracking_session):
+        with raises(ValueError, match="Can't get one run without an argument"):
+            get_run_by_id(session=tracking_session, batch_id=None, flowcell_id=None)
+
+        run = get_run_by_id(
+            session=tracking_session,
+            batch_id="O44 batch 24798 pool 1",
+            flowcell_id="430591",
+        )
+        assert run
+        assert run.id_run == 51533
+
+        run = get_run_by_id(session=tracking_session, id_run=51533)
+        assert run
+        assert run.id_run == 51533
+
+        run = get_run_by_id(session=tracking_session, id_run=12345)
+        assert run is None
