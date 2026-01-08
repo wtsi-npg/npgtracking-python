@@ -42,6 +42,7 @@ Listing of manual changes to the generated code:
     with the import from sqlalchemy.dialects.mysql
 """
 
+
 class Base(DeclarativeBase):
     pass
 
@@ -637,7 +638,7 @@ class Run(Base):
     actual_cycle_count: Mapped[Optional[int]] = mapped_column(BIGINT)
     expected_cycle_count: Mapped[Optional[int]] = mapped_column(BIGINT)
     id_run_pair: Mapped[Optional[int]] = mapped_column(BIGINT)
-    batch_id: Mapped[Optional[int]] = mapped_column(BIGINT)
+    batch_id: Mapped[Optional[int]] = mapped_column(String(64))
     flowcell_id: Mapped[Optional[str]] = mapped_column(String(64))
     folder_name: Mapped[Optional[str]] = mapped_column(String(64))
     folder_path_glob: Mapped[Optional[str]] = mapped_column(String(256))
