@@ -9,7 +9,7 @@ The code in this package was tested for read-only operations. Business logic
 for `create` and `update` operation for different database tables is implemented
 in the Perl package. We advise against performing `write` operations using this ORM.
 
-This ORM has been auto-generated with [`sqlacodegen 3.1.1`](https://pypi.org/project/sqlacodegen/3.1.1/) 
+This ORM has been auto-generated with [`sqlacodegen 4.0.3`](https://pypi.org/project/sqlacodegen/4.0.3/) 
 
 ```
 sqlacodegen --generator declarative mysql+pymysql://user:pass@host:port/dbname > src/npgtracking/db/schema.py
