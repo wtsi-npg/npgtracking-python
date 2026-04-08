@@ -129,7 +129,7 @@ class RunLaneStatusDict(Base):
 
     id_run_lane_status_dict: Mapped[int] = mapped_column(BIGINT, primary_key=True)
     description: Mapped[str] = mapped_column(
-        String(64), primary_key=True, server_default=text("''")
+        String(64), server_default=text("''")
     )
 
     run_lane_status: Mapped[list["RunLaneStatus"]] = relationship(
@@ -427,7 +427,7 @@ class Instrument(Base):
 
     id_instrument: Mapped[int] = mapped_column(BIGINT, primary_key=True)
     name: Mapped[str] = mapped_column(
-        CHAR(32), primary_key=True, server_default=text("''")
+        CHAR(32), server_default=text("''")
     )
     id_instrument_format: Mapped[int] = mapped_column(
         BIGINT, nullable=False, server_default=text("'0'")

@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 
 * Upgraded MySQL version for GitHub CI to 8.4
+* Updated the ORM to reflect [changes](https://github.com/wtsi-npg/npg_tracking/pull/969)
+  to the production database
 
 ## [0.2.0] - 2025-12-12
 
