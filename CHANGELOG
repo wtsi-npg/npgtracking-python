@@ -5,22 +5,30 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
 
+## [1.0.0] - 2026-04-24
+
 ### Changed
 
 * Upgraded MySQL version for GitHub CI to 8.4
 * Updated the ORM to reflect [changes](https://github.com/wtsi-npg/npg_tracking/pull/969)
   to the production database.
 * Regenerated the ORM with the current (4.0.3) version of `sqlacodegen`.
+* Renamed `tests/test_schema.py` to `tests/test_retrieval.py` to reflect the
+  module name that is being tested.
+
+### Added
+
+* `validate_runfolder` function to npgtracking.db.retrieval 
 
 ## [0.2.0] - 2025-12-12
 
 ### Added
 
-* get_run_by_id function added to retrieval module
+* `get_run_by_id` function added to retrieval module
 
 ### Fixed
 
-* run.batch_id is now a varchar
+* `run.batch_id` is now a varchar
 
 ## [0.1.1] - 2025-12-11
 
