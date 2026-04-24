@@ -107,3 +107,25 @@ def get_run_by_id(
         raise ValueError("Can't get one run without an argument")
     result = session.execute(statement).scalar_one_or_none()
     return result
+
+
+def validate_runfolder(session: Session, id_run: int, runfolder_name: str) -> bool:
+    """Validates the runfolder name against the run ID.
+
+    Errors if run with the given ID does not exist.
+
+    Args:
+      session :
+        Database session
+      id_run :
+        Tracking run ID
+      runfolder_name :
+        Runfolder name
+    Returns:
+      `True` if the runfolder name and run id belong to the same run, `False`
+      otherwise.
+    """
+    run = session.execute(select(Run).where(Run.id_run == id_run)).scalar()
+    if not run:
+        raise ValueError(f"Run with ID {id_run} does not exist.")
+    return run.folder_name == runfolder_name

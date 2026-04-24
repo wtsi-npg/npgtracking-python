@@ -21,10 +21,11 @@ from pytest import raises
 from npgtracking.db.retrieval import (
     get_run_by_id,
     get_runs_by_currentstatus,
+    validate_runfolder,
 )
 
 
-@m.describe("SchemaModel")
+@m.describe("Data retrieval from the tracking database")
 class TestSchemaModel(object):
     @m.context("When retrieving run records from tracking DB")
     @m.context("When there are no runs having a current status and manufacturer name")
@@ -102,3 +103,19 @@ class TestSchemaModel(object):
 
         run = get_run_by_id(session=tracking_session, id_run=12345)
         assert run is None
+
+    @m.context("When runfolder name and run ID are correct")
+    @m.it("Validator returns True, otherwise False")
+    def test_validate_runfolder(self, tracking_session):
+        assert (
+            validate_runfolder(tracking_session, 51533, "430591-20251204_1628") is True
+        )
+        assert (
+            validate_runfolder(tracking_session, 51533, "430591-20251204_XXXX") is False
+        )
+
+    @m.context("When run ID is invalid")
+    @m.it("An error is raised")
+    def test_validate_runfolder_error(self, tracking_session):
+        with raises(ValueError, match="Run with ID 1 does not exist"):
+            validate_runfolder(tracking_session, 1, "430591-20251204_1628")
