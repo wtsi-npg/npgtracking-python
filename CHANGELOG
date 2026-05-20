@@ -5,6 +5,11 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
 
+### Changes
+
+* Change tests to use secure variant of database config that stops logging secrets
+    *  i.e. might be copied to production code
+
 ## [1.0.0] - 2026-04-24
 
 ### Changed
