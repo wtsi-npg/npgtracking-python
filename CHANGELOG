@@ -5,6 +5,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## Unreleased
 
+### Added
+
+* New function for retrieving runs by their run folder name.
+
 ### Changes
 
 * Change tests to use secure variant of database config that stops logging secrets
@@ -23,7 +27,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
-* `validate_runfolder` function to npgtracking.db.retrieval 
+* `validate_runfolder` function to npgtracking.db.retrieval
 
 ## [0.2.0] - 2025-12-12
 
