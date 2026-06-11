@@ -17,9 +17,11 @@
 
 from pytest import mark as m
 from pytest import raises
+from sqlalchemy.exc import NoResultFound
 
 from npgtracking.db.retrieval import (
     get_run_by_id,
+    get_run_by_runfolder,
     get_runs_by_currentstatus,
     validate_runfolder,
 )
@@ -119,3 +121,18 @@ class TestSchemaModel(object):
     def test_validate_runfolder_error(self, tracking_session):
         with raises(ValueError, match="Run with ID 1 does not exist"):
             validate_runfolder(tracking_session, 1, "430591-20251204_1628")
+
+    @m.context("When retrieving a Run by an invalid runfolder_name")
+    @m.it("An exception is raised")
+    def test_run_by_bad_runfolder_name(self, tracking_session):
+        with raises(NoResultFound):
+            get_run_by_runfolder(tracking_session, "/not/here")
+
+        with raises(NoResultFound):
+            get_run_by_runfolder(tracking_session, None)
+
+    @m.context("When retrieving a Run by a valid runfolder_name")
+    @m.it("A single valid Run object is returned")
+    def test_run_by_runfolder_name(self, tracking_session):
+        run = get_run_by_runfolder(tracking_session, "424091-20250823_0117")
+        assert run.id_run == 50001

@@ -129,3 +129,9 @@ def validate_runfolder(session: Session, id_run: int, runfolder_name: str) -> bo
     if not run:
         raise ValueError(f"Run with ID {id_run} does not exist.")
     return run.folder_name == runfolder_name
+
+
+def get_run_by_runfolder(session: Session, run_folder_name: str) -> Run:
+    return session.execute(
+        select(Run).where(Run.folder_name == run_folder_name)
+    ).scalar_one()
