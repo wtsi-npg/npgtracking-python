@@ -3,7 +3,16 @@
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## Unreleased
+## [1.1.0] - 2026-08-07
+
+### Added
+
+* New function for retrieving runs by their run folder name.
+
+### Changes
+
+* Change tests to use secure variant of database config that stops logging secrets
+    *  i.e. might be copied to production code
 
 ## [1.0.0] - 2026-04-24
 
@@ -18,7 +27,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
-* `validate_runfolder` function to npgtracking.db.retrieval 
+* `validate_runfolder` function to npgtracking.db.retrieval
 
 ## [0.2.0] - 2025-12-12
 

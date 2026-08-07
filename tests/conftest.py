@@ -20,7 +20,7 @@
 import json
 import os
 import re
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from importlib import import_module
 from pathlib import Path
 
@@ -39,7 +39,8 @@ class TrackingConfig:
     dbport: str
     dbuser: str
     dbname: str
-    dbpass: str
+    # Safer for tests to use secure variant i.e. might be copied to production code
+    dbpass: str = field(repr=False)
 
     @property
     def url(self):
